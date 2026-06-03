@@ -1,12 +1,16 @@
-import cv2, os
+import os
+import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 import tensorflow as tf
 from tensorflow.keras import layers 
 from tensorflow.keras.models import Model 
-from tensorflow.keras.applications.densenet import DenseNet121
+
+# Clean up or isolate the architecture to avoid multi-backend initialization overhead
+# from tensorflow.keras.applications.densenet import DenseNet121
 
 def multi_conv_3D(input_shape, num_classes_task1, num_classes_task2):
+    # input_shape should be 4D: (depth, height, width, channels)
     inputs = layers.Input(shape=input_shape)
     
     x = layers.Conv3D(128, (3,3,3), padding='same')(inputs)

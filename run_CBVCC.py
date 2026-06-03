@@ -11,6 +11,9 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import classification_report
 import csv
 
+# might be needed since i have a newer version
+#import tensorflow.compat.v1 as tf
+#tf.disable_v2_behavior()
 #---------------------------------------------------------------------------
 
 def get_actual_predicted_labels(dataset, model, save_errors=False, path_output=None):

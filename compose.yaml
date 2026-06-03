@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  rocm-wsl:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rocm_tensorflow_wsl
+    tty: true
+    stdin_open: true
+    ipc: host
+    privileged: true
+    
+    # AMD recommends 16GB shared memory minimum for stable TensorFlow workloads
+    shm_size: '16gb'
+    
+    environment:
+      - HSA_ENABLE_DXG_DETECTION=1
+    
+    devices:
+      - /dev/dxg:/dev/dxg
+
+    volumes:
+      - /usr/lib/wsl/lib/libdxcore.so:/usr/lib/wsl/lib/libdxcore.so
+      - /opt/rocm/lib/librocdxg.so:/usr/lib/librocdxg.so
+      - /opt/rocm/share/rocdxg/dids.conf:/usr/share/rocdxg/dids.conf
+      - .:/workspace
+
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp=unconfined

@@ -1,31 +1,31 @@
 # This file may be used to create an environment using:
 # $ conda env create -f <this file>
-name: environment
+name: CBVCC_CNN
 channels:
   - conda-forge
+  - nvidia
   - defaults
 dependencies:
-  - _libgcc_mutex=0.1=main
-  - _openmp_mutex=5.1=1_gnu
-  - ca-certificates=2024.7.4=hbcca054_0
-  - cudatoolkit=11.2.2=hbe64b41_10
-  - cudnn=8.1.0.77=h90431f1_0
-  - ld_impl_linux-64=2.38=h1181459_1
-  - libffi=3.4.4=h6a678d5_1
-  - libgcc-ng=11.2.0=h1234567_1
-  - libgomp=11.2.0=h1234567_1
-  - libstdcxx-ng=11.2.0=h1234567_1
-  - ncurses=6.4=h6a678d5_0
-  - openssl=3.0.14=h5eee18b_0
-  - pip=24.0=py39h06a4308_0
-  - python=3.9.19=h955ad1f_1
-  - readline=8.2=h5eee18b_0
-  - setuptools=69.5.1=py39h06a4308_0
-  - sqlite=3.45.3=h5eee18b_0
-  - tk=8.6.14=h39e8969_0
-  - wheel=0.43.0=py39h06a4308_0
-  - xz=5.4.6=h5eee18b_1
-  - zlib=1.2.13=h5eee18b_1
+  - ca-certificates=2024.7.4
+  - cudatoolkit=11.2.2
+  - cudnn=8.1.0.77
+  - libffi=3.4.4
+  - openssl=3.0.14
+  - pip=24.0
+  - python=3.9.19
+  - setuptools=69.5.1
+  - sqlite=3.45.3
+  - tk=8.6.14
+  - wheel=0.43.0
+  - xz=5.4.6
+  - zlib=1.2.13
+  # --- MOVED HEAVY PACKAGES TO CONDA TO AVOID COMPILER ERRORS ---
+  - matplotlib=3.9
+  - numpy=1.26
+  - scipy=1.13
+  - pandas=2.2
+  - h5py=3.11
+  # -------------------------------------------------------------
   - pip:
       - absl-py==2.1.0
       - astunparse==1.6.3
@@ -42,7 +42,6 @@ dependencies:
       - google-auth-oauthlib==0.4.6
       - google-pasta==0.2.0
       - grpcio==1.65.1
-      - h5py==3.11.0
       - idna==3.7
       - imageio==2.34.2
       - importlib-metadata==8.1.0
@@ -55,16 +54,13 @@ dependencies:
       - libclang==18.1.1
       - markdown==3.6
       - markupsafe==2.1.5
-      - matplotlib==3.9.1
       - networkx==3.2.1
       - nibabel==5.2.1
-      - numpy==1.26.1
       - oauthlib==3.2.2
       - opencv-python==4.10.0.84
       - openpyxl==3.1.5
       - opt-einsum==3.3.0
       - packaging==24.1
-      - pandas==2.2.2
       - pillow==10.4.0
       - protobuf==3.19.6
       - pyasn1==0.6.0
@@ -77,14 +73,13 @@ dependencies:
       - rsa==4.9
       - scikit-image==0.24.0
       - scikit-learn==1.5.1
-      - scipy==1.13.1
       - six==1.16.0
       - tensorboard==2.10.1
       - tensorboard-data-server==0.6.1
       - tensorboard-plugin-wit==1.8.1
       - tensorflow==2.10.0
       - tensorflow-estimator==2.10.0
-      - tensorflow-io-gcs-filesystem==0.37.1
+      - tensorflow-io-gcs-filesystem
       - termcolor==2.4.0
       - threadpoolctl==3.5.0
       - tifffile==2024.7.24
@@ -94,4 +89,3 @@ dependencies:
       - werkzeug==3.0.3
       - wrapt==1.16.0
       - zipp==3.19.2
-prefix: /home/miniconda3/envs/environment

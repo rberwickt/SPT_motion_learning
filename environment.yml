@@ -1,5 +1,6 @@
 # This file may be used to create an environment using:
 # $ conda env create -f <this file>
+# this has been modified from the original .yml file to work with windows (used to be linux specific)
 name: CBVCC_CNN
 channels:
   - conda-forge

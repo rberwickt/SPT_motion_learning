@@ -1,6 +1,10 @@
-# Instantiating a dummy medical imaging volume slice format: (64 depth, 128 height, 128 width, 1 channel)
+import tensorflow as tf
 from utils.models_multi_task import multi_conv_3D
-my_model = multi_conv_3D((64, 128, 128, 1), num_classes_task1=2, num_classes_task2=5)
+from utils.models import convLSTM_model, conv_GRU
 
-# Verify compilation target graph
-my_model.summary()
+# this file is just for loading a specific model to see the summary easily
+
+print("starting to load model")
+#model = multi_conv_3D(input_shape, num_classes_task1=2, num_classes_task2=3)
+model = conv_GRU((30,256,256, 1), 4)
+model.summary()

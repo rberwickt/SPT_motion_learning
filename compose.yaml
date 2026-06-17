@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   rocm-wsl:
     build:
@@ -10,22 +8,40 @@ services:
     stdin_open: true
     ipc: host
     privileged: true
+    user: "0:0" # Force execution as root user inside container
     
     # AMD recommends 16GB shared memory minimum for stable TensorFlow workloads
     shm_size: '16gb'
     
     environment:
       - HSA_ENABLE_DXG_DETECTION=1
+      # hard code setting to RDNA4 and my card (amd rx 9070)
+      - HSA_OVERRIDE_GFX_VERSION=12.0.1            
+      - AMDGPU_TARGET=gfx1201                        
+      - LD_LIBRARY_PATH=/usr/lib:/opt/rocm/lib:$$LD_LIBRARY_PATH # path to compiled library
+      - ROCM_PATH=/opt/rocm
+
+      # MIOPEN TUNING: the default was using too much memory trying to find the most efficient method(? didn't entirely understand this)
+      - MIOPEN_FIND_MODE=FAST                       
+      - MIOPEN_DEBUG_CONV_IMMED_MODE=1              
+      - MIOPEN_DISABLE_CACHE=0                      
+
+      # === TENSORFLOW COMPATIBILITY ===
+      - TF_FORCE_GPU_ALLOW_GROWTH=true               # Prevents greedy allocation loops on shared WSL2 host VRAM
+      - TF_CUDNN_WORKSPACE_LIMIT_IN_MB=8192          # despite saying CUDNN this also manages memory for ROCm
+      - XLA_FLAGS=--xla_gpu_autotune_level=1        
+      - TF_XLA_FLAGS=--tf_xla_auto_jit=0
     
     devices:
-      - /dev/dxg:/dev/dxg
+      - /dev/dxg:/dev/dxg # for using rocdxg (needed for WSL passthrough to work nicely)
 
     volumes:
-      - /usr/lib/wsl/lib/libdxcore.so:/usr/lib/wsl/lib/libdxcore.so
+      # workspace + the compiled libraries (see ROCm and rocdxg setup pages)
+      - /usr/lib/wsl/lib/libdxcore.so:/usr/lib/libdxcore.so
       - /opt/rocm/lib/librocdxg.so:/usr/lib/librocdxg.so
       - /opt/rocm/share/rocdxg/dids.conf:/usr/share/rocdxg/dids.conf
       - .:/workspace
-
+      
     cap_add:
       - SYS_PTRACE
     security_opt:
